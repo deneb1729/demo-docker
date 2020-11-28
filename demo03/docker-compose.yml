@@ -1,0 +1,35 @@
+version: '3.7'
+
+services: 
+
+  wordpress:
+    image: wordpress:php7.2
+    restart: unless-stopped
+    container_name: wordpress
+    depends_on:
+      - mysql
+    ports:
+      - 8085:80
+    environment:
+      - WORDPRESS_DB_HOST=mysql
+      - WORDPRESS_DB_USER=dummy
+      - WORDPRESS_DB_PASSWORD=bestpassword
+      - WORDPRESS_DB_NAME=demo003
+    volumes:
+      - wordpress:/var/www/html
+
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    container_name: mysql
+    environment:
+      - MYSQL_DATABASE=demo003
+      - MYSQL_USER=dummy
+      - MYSQL_PASSWORD=bestpassword
+      - MYSQL_RANDOM_ROOT_PASSWORD="1"
+    volumes:
+      - db:/var/lib/mysql
+
+volumes: 
+  db:
+  wordpress:
